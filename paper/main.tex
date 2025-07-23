@@ -5,8 +5,8 @@
 \usepackage{booktabs}
 
 \begin{document}
-    \title{Title}
-    \titlerunning{Title}
+    \title{Data-Driven Approaches for Identifying Depression Severity in Social Media Posts}
+    \titlerunning{Data-Driven Identification of Depression Severity}
 
     \author{Paul-Adrian Uif\u{a}lean}
     \authorrunning{Paul Uif\u{a}lean}
@@ -14,12 +14,20 @@
     \institute {Babe\c{s}-Bolyai University \\ \email{paul.uifalean@stud.ubbcluj.ro}}
     
     \maketitle 
+    
+    \begin{abstract}
+        In this study, I explored different approaches to classify depression severity from social media text. I combined multiple publicly available datasets to build a unique dataset labeled with three severity levels: not depression, moderate, and severe. I evaluated traditional machine learning models using TF-IDF and sentence embeddings, deep learning models based on BiLSTM with pre-trained GloVe embeddings, and a fine-tuned DistilBERT transformer model, pre-trained with masked language modeling. My results show that simple traditional models with strong features perform best, while deep learning models faced challenges likely due to limited and imbalanced data. The DistilBERT model performed competitively but requires more fine-tuning and data augmentation to reach its full potential. I conclude that, given current data constraints, simpler models remain strong baselines, and future work should focus on collecting richer data and improving augmentation and fine-tuning methods for advanced models.
+    \end{abstract}
+    
+    \keywords{Depression Severity, Data Augmentation, Sentence Embeddings, Class Imbalance, GloVe Embeddings, Masked Language Modeling, Transformer Fine-Tuning}
 
+    \input{sections/intro}
     \input{sections/related-work}
     \input{sections/data}
     \input{sections/methodology}
     \input{sections/results}
-
+    \input{sections/conclusion}
+    
     \bibliographystyle{splncs04}
     \bibliography{references}
 \end{document}

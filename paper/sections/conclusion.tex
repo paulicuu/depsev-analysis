@@ -1,0 +1,9 @@
+\section{Conclusion}
+
+In this project, I explored different methods: traditional machine learning, deep learning, and transformer-based models, to classify depression severity from social media text. My best results came from the Random Forest classifier using sentence embeddings, which outperformed both the BiLSTM and DistilBERT models.
+
+I found that the limited size and quality of my dataset, especially the low number of severe cases, made the task challenging for all approaches. Although I used data augmentation, resampling and class weighting to help with class imbalance, these strategies only partially addressed the issue. I believe that more advanced augmentation techniques and larger, better-quality datasets are needed to improve performance, especially for deep learning and transformer models.
+
+While my fine-tuned DistilBERT model performed competitively, it was more computationally demanding and did not surpass the simpler Random Forest in this setting. With more time and resources, further fine-tuning and training could lead to better results with transformer-based models.
+
+Overall, my findings suggest that traditional and simple machine learning models with strong feature representations remain effective, especially when data and computational resources are limited. For future work, I recommend focusing on two points of research. First, more effort should be put into collecting high-quality and diverse datasets specific to this domain. Second, since depression should ideally become less prevalent over time, naturally occurring high-quality data for this task may be scarce. This makes it even more important to develop advanced data augmentation techniques and carefully fine-tune neural networks and transformer models to unlock their full potential.
