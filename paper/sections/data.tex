@@ -1,0 +1,47 @@
+\section{Data}
+
+The dataset used in this study was constructed by aggregating and preprocessing multiple publicly available depression-related social media corpora. The goal was to produce a unified, high-quality dataset suitable for training and evaluating machine learning models tasked with detecting depression severity levels in textual content. This section outlines the origin, preparation, and final composition of the dataset used throughout my experimentation. I selected two primary sources of data:
+
+The first is the DEPSEV dataset, which contains user-generated posts annotated according to clinically derived categories of depression severity, such as minimum, mild, and severe. It provides structured and medically grounded labels for identifying levels of depressive symptoms in text.
+
+The second is the DEPSIGN dataset, which is a combination of three related smaller datasets, referred to as DEPSIGN\_1, DEPSIGN\_2, and DEPSIGN\_3. Each of these subsets contains text posts labeled for signs of depression, albeit using slightly different taxonomies and conventions, which I addressed during data cleaning and preprocessing. These datasets were first loaded independently and subjected to standardized cleaning procedures. Afterward, they were merged into a single corpus. Subsequently, this corpus was concatenated with the cleaned DEPSEV dataset to form the final dataset, which I refer to as DEPSET.
+
+In order to ensure that all datasets are compatible and share a uniform common schema, I implemented several cleaning utilities, which include the process of converting all column names to lowercase and replacing all white spaces to underscore. Because every dataset had small differences in the labeling and text names, I needed to normalize them, so I identified every column that contains the "label" or "text" substrings in any format and standardized them accordingly. As a final initial cleaning step, I removed all columns which contained ID values, since these offer no value to the research, other than for ordering purposes.
+
+The original label schema in the DEPSEV dataset contained four labels, and the lowest severity level was "minimum", whereas the other datasets included a label that indicated no depression levels at all. To align DEPSEV with the other datasets and to provide a clearer semantic interpretation, I applied a series of mappings: I relabeled "minimum" to a non-depression severity level and "mild" to "moderate". These adjustments produced a harmonized label taxonomy comprising of three category labels: not depression, moderate and severe. Of course, before deciding to remap those labels, I manually checked some of the minimum labeled texts. These mostly included neutral texts like advertising or casual conversations, which offer no real value being labeled as minimum.
+
+After the merge into the final dataset, I applied several final cleaning steps. I began by checking for null values, which surprisingly were none. However, it appeared that there was a significant number of duplicate values among the DEPSIGN datasets. Initially I believed this to be an error, possibly the function misinterpreting similar text as duplicates, but after a thorough check through some duplicate data samples, I found that the texts were indeed one-to-one duplicates, so I removed them to prevent useless noisy data.
+
+As a final step of data analysis, I performed a final verification on label frequency to assess class imbalance and data size. The final label distribution is shown in Table 1, below:
+
+\begin{table}
+    \centering
+    \caption{Label distribution across datasets before and after merging}
+    \begin{tabular}{lccc}
+        \toprule
+            \textbf{Dataset}        & 
+            \textbf{Not Depression} & 
+            \textbf{Moderate}       & 
+            \textbf{Severe}         \\
+        \midrule
+            DEPSEV        & 2,587  & 684   & 282  \\
+            DEPSIGN\_1    & 1,830  & 2,306 & 360  \\
+            DEPSIGN\_2    & 848    & 2,169 & 228  \\
+            DEPSIGN\_3    & 1,971  & 6,019 & 901  \\
+        \midrule
+            \textbf{Final Dataset} & 
+            \textbf{6,112}         & 
+            \textbf{6,438}         & 
+            \textbf{1,218}         \\
+        \bottomrule
+    \end{tabular}
+    \label{Table_1}
+\end{table}
+
+Even though the dataset seems clearly imbalanced, the severe class being misrepresented, I believe that this is more similar to a real-world scenario. Thankfully, the severe cases of depression are minimal in the real world or on the other hand, they may be less likely to be explicitly shared on public platforms. In order to combat the class imbalance, I implemented a few data-level solutions like oversampling and data augmentation, which I will cover in the next chapter in detail.
+
+After data cleaning, I implemented a classic preprocessing function, which applies a sequence of operations, including: converting all text to lowercase, removing spaces, expanding words into their full form using contractions, the removal of URLs and HTML tags, and handling punctuation and extra unnecessary spaces.
+
+Another piece of data that I used for this project is the Reddit Depression Corpora, a corpus which consists of 396,968 social media posts, gathered from various subreddits related to mental health, which I have used for pre-training DistilBERT using masked language modeling.
+
+The main issue that I encountered while attempting to collect such data for the construction of a dataset was the sensitive and personal nature of the data. High-quality clinical data annotated by professionals in this domain is often protected by privacy regulations, which makes it difficult and unethical to share publicly. As a result, I relied on publicly available social media content, which, while accessible, may contain exaggerated, sarcastic or fabricated narratives, which can introduce noise into the dataset and potentially mislead and confuse machine learning models.
